@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>단장교 누리집</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* 배치 개념: 문장(紋章)을 올려다보는 법당 한 칸. 가운데 축에 현판과 문장을 세우고,
+   그 아래로 살아 있는 것(은급절·목탁·명부)과 새겨진 것(교리·계명·어록)을 번갈아 놓는다.
+   문장의 남색과 금색 한 세계로만 간다(단일 테마). */
+:root{
+  color-scheme:dark;
+  --navy:#0E1F37;        /* 문장 바탕과 같은 남색 */
+  --navy-deep:#091628;
+  --navy-rise:#15294A;
+  --line:#2B4168;
+  --gold:#D9B45F;
+  --gold-soft:#A98B4A;
+  --lotus:#F1E9D6;       /* 연꽃 흰색 */
+  --mist:#A9B6CB;
+  --dancheong:#4FB3A1;   /* 단청 청록: 살아 있는 값에만 */
+  --seal:#C9553F;        /* 인주 붉은색: 금기에만 */
+  --display:"Nanum Myeongjo","Gowun Batang","Apple SD Gothic Neo",serif;
+  --body:"Gowun Batang","Nanum Myeongjo","Apple SD Gothic Neo",serif;
+  --util:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --measure:38rem;
+}
+*{box-sizing:border-box}
+html{background:var(--navy);scroll-behavior:smooth}
+#join{scroll-margin-top:2rem}
+body{background:var(--navy);color:var(--lotus);font-family:var(--body);font-size:1.0625rem;line-height:1.75;
+  padding-inline:20px;padding-block:0 4rem;word-break:keep-all;overflow-wrap:anywhere}
+h1,h2,h3,p,ol,ul,dl,dd,figure{margin:0}
+ol,ul{padding:0;list-style:none}
+h2,h3{text-wrap:balance}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:60rem;margin-inline:auto;display:flex;flex-direction:column;gap:7rem}
+.eyebrow{font-family:var(--util);font-size:.75rem;letter-spacing:.22em;color:var(--gold-soft);font-weight:500}
+.sec-head{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.5rem}
+.sec-head h2{font-family:var(--display);font-weight:800;font-size:1.5rem;line-height:1.4;color:var(--lotus)}
+.sec-head h2 span{font-weight:400;color:var(--gold);font-size:.7em;margin-left:.4em}
+
+/* 머리: 현판과 문장 */
+.hero{display:grid;grid-template-columns:1fr;justify-items:center;text-align:center;gap:1rem 3.5rem;padding-top:1.5rem;align-items:center}
+.hero-text{display:flex;flex-direction:column;align-items:center;gap:.9rem;min-width:0}
+@media (min-width:760px){
+  .hero{grid-template-columns:auto 1fr;justify-items:start;text-align:left;min-height:min(calc(100svh - 2rem),46rem);padding-top:0}
+  .hero-text{align-items:flex-start}
+  .hero .greet{justify-content:flex-start}
+}
+.plaque{display:inline-flex;gap:.55em;padding:.5rem 1.4rem;border:1px solid var(--gold-soft);
+  background:var(--navy-deep);font-family:var(--display);font-weight:800;font-size:clamp(1.3rem,5vw,1.9rem);
+  color:var(--gold);letter-spacing:.1em;direction:rtl}
+.plaque i{font-style:normal}
+.emblem{width:min(72vw,17rem,42svh);aspect-ratio:1;max-width:100%;
+  -webkit-mask-image:radial-gradient(circle closest-side at 50% 49%,#000 97%,transparent 100%);
+  mask-image:radial-gradient(circle closest-side at 50% 49%,#000 97%,transparent 100%)}
+@media (min-width:760px){.emblem{width:min(42vw,27rem,70svh)}}
+.emblem img{width:100%;height:100%;object-fit:cover;display:block}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(3rem,10vw,4rem);line-height:1.1;
+  letter-spacing:0;color:var(--gold)}
+.hero .lord{font-family:var(--display);font-size:1.25rem;color:var(--lotus)}
+.hero .motto{color:var(--mist);max-width:24rem}
+.greet{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.75rem;margin-top:.75rem}
+a.btn{text-decoration:none;display:inline-block}
+.btn{font-family:var(--util);font-size:.85rem;font-weight:500;padding:.5rem 1rem;border:1px solid var(--gold-soft);
+  background:transparent;color:var(--gold);border-radius:2px;cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:var(--gold);color:var(--navy-deep)}
+.btn.solid{background:var(--gold);color:var(--navy-deep);border-color:var(--gold)}
+.btn.solid:hover{background:var(--lotus);border-color:var(--lotus)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* 살아 있는 칸 */
+.live{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line)}
+.live>section{background:var(--navy-deep);padding:1.75rem 1.5rem;display:flex;flex-direction:column;gap:.9rem;min-width:0}
+.live h3{font-family:var(--display);font-weight:800;font-size:1.2rem;color:var(--gold)}
+.live h3 small{font-family:var(--util);font-weight:400;font-size:.75rem;color:var(--mist);margin-left:.5em;letter-spacing:.05em}
+.note{font-family:var(--util);font-size:.8rem;color:var(--mist);line-height:1.6}
+.big{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,8vw,3rem);line-height:1.1;color:var(--lotus);
+  font-variant-numeric:tabular-nums}
+.big small{font-size:.4em;font-weight:400;color:var(--mist);margin-left:.25em}
+.clock{font-family:var(--util);font-variant-numeric:tabular-nums;color:var(--dancheong);font-size:1rem;letter-spacing:.06em}
+.payday{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-family:var(--util);font-size:.8rem;color:var(--mist)}
+.payday input{width:4.2rem;padding:.3rem .45rem;background:var(--navy);border:1px solid var(--line);border-radius:2px;
+  color:var(--lotus);font-variant-numeric:tabular-nums}
+
+.moktak{align-self:center;width:8.5rem;height:8.5rem;border-radius:50%;border:2px solid var(--gold);cursor:pointer;
+  background:radial-gradient(circle at 35% 30%,#3a5788,var(--navy-rise) 60%,var(--navy-deep));
+  font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--gold);letter-spacing:.1em;
+  transition:transform .08s ease-out,box-shadow .3s}
+.moktak:active,.moktak.hit{transform:scale(.94);box-shadow:0 0 0 10px rgba(217,180,95,.14)}
+.tally{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+.tally div{display:flex;flex-direction:column;align-items:center;gap:.1rem}
+.tally b{font-family:var(--display);font-size:1.7rem;font-variant-numeric:tabular-nums;color:var(--lotus);line-height:1.2}
+.tally b.shared{color:var(--dancheong)}
+.tally span{font-family:var(--util);font-size:.72rem;color:var(--mist);letter-spacing:.08em}
+.rank{font-family:var(--display);font-weight:800;font-size:1.9rem;color:var(--lotus);line-height:1.3}
+
+/* 새겨진 것 */
+.creed{text-align:center;padding-block:1rem;display:flex;flex-direction:column;gap:.75rem;align-items:center}
+.creed blockquote{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,6.5vw,2.9rem);line-height:1.4;
+  color:var(--gold);text-wrap:balance}
+.decl{max-width:var(--measure);margin-inline:auto;text-align:center;display:flex;flex-direction:column;gap:.5rem;color:var(--lotus)}
+.decl .sign{font-family:var(--display);color:var(--gold);margin-top:.75rem}
+
+.commands{columns:2 20rem;column-gap:3rem;counter-reset:c}
+.commands li{break-inside:avoid;counter-increment:c;display:grid;grid-template-columns:2.6rem 1fr;gap:.5rem;
+  padding-block:.85rem;border-top:1px solid var(--line)}
+.commands li::before{content:counter(c,cjk-ideographic);font-family:var(--display);font-weight:800;color:var(--gold);font-size:1.15rem}
+.commands li.taboo::before{color:var(--seal)}
+.commands li p{min-width:0}
+.taboo-key{font-family:var(--util);font-size:.8rem;color:var(--mist);margin-top:1rem}
+.taboo-key b{color:var(--seal);font-weight:600}
+
+.sutra{border-block:1px solid var(--gold-soft);padding-block:2.25rem;display:grid;gap:2rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));align-items:start}
+.verse{display:flex;flex-direction:column;gap:.6rem}
+.verse .ref{font-family:var(--util);font-size:.75rem;letter-spacing:.2em;color:var(--gold-soft)}
+.verse .lead{color:var(--mist)}
+.verse .word{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,6vw,2.3rem);color:var(--gold);line-height:1.35}
+.gloss{display:flex;flex-direction:column;gap:.5rem;font-size:.97rem;min-width:0}
+.gloss h3{font-family:var(--util);font-size:.75rem;letter-spacing:.2em;color:var(--gold-soft);font-weight:500}
+.gloss li{padding-left:1em;text-indent:-1em}
+.gloss li::before{content:"· ";color:var(--gold)}
+
+.rites{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr));gap:2rem 2.5rem}
+.rites div{display:flex;flex-direction:column;gap:.4rem;min-width:0;border-top:2px solid var(--gold);padding-top:.9rem}
+.rites dt{font-family:var(--util);font-size:.75rem;color:var(--gold-soft)}
+.rites dd b{display:block;font-family:var(--display);font-weight:800;font-size:1.2rem;color:var(--lotus);margin-bottom:.25rem}
+.rites dd{font-size:.95rem;color:var(--mist);line-height:1.65}
+
+/* 입교 */
+.join{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:2.5rem}
+.join form{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.field{display:flex;flex-direction:column;gap:.35rem}
+.field label{font-family:var(--util);font-size:.8rem;color:var(--mist)}
+.field input{padding:.7rem .8rem;background:var(--navy-deep);border:1px solid var(--line);border-radius:2px;color:var(--lotus);width:100%}
+.field input::placeholder{color:#62759a}
+.msg{font-family:var(--util);font-size:.85rem;min-height:1.5em;color:var(--mist)}
+.msg.ok{color:var(--dancheong)} .msg.bad{color:var(--seal)}
+.roll{min-width:0;display:flex;flex-direction:column;gap:.75rem}
+.roll h3{font-family:var(--display);font-weight:800;font-size:1.15rem;color:var(--gold);display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.roll h3 small{font-family:var(--util);font-weight:400;font-size:.78rem;color:var(--dancheong)}
+.roll ul{display:flex;flex-direction:column}
+.roll li{display:grid;grid-template-columns:2rem 1fr;gap:.75rem;align-items:center;padding-block:.65rem;border-top:1px solid var(--line)}
+.roll li img{width:2rem;height:2rem;border-radius:50%}
+.roll li div{min-width:0;display:flex;flex-direction:column;line-height:1.4}
+.roll li b{font-family:var(--display);color:var(--lotus)}
+.roll li span{font-family:var(--util);font-size:.78rem;color:var(--mist)}
+.roll .empty{color:var(--mist);font-size:.95rem;border-top:1px solid var(--line);padding-top:.9rem}
+
+footer{text-align:center;font-family:var(--util);font-size:.78rem;color:var(--mist);display:flex;flex-direction:column;gap:.4rem;
+  border-top:1px solid var(--line);padding-top:2rem}
+footer b{font-family:var(--display);color:var(--gold);font-size:1rem;font-weight:800}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <figure class="emblem"><img src="emblem.jpg" alt="연꽃 위에 서서 십자가를 멘 금빛 부처상. 단장교의 문장."></figure>
+  <div class="hero-text">
+    <div class="plaque" aria-label="단장교 현판"><i>團</i><i>長</i><i>敎</i></div>
+    <h1>단장교</h1>
+    <p class="lord">교주 강준규 단장님</p>
+    <p class="motto">겉으로는 합장하고 속으로는 아멘합니다. 자비와 사랑으로 함께.</p>
+    <div class="greet">
+      <a class="btn solid" href="#join">암송하고 입교하기</a>
+      <button class="btn" id="copyGreet" type="button">인사말 복사</button>
+    </div>
+  </div>
+</header>
+
+<section class="live" aria-label="지금 교단">
+  <section>
+    <h3>은급절<small>恩給節</small></h3>
+    <div class="big" id="dday">–</div>
+    <div class="clock" id="clock" aria-live="off">–</div>
+    <p class="note" id="paynote">매달 돌아오는 은혜의 날. 이날의 커피는 먼저 본 사람이 삽니다.</p>
+    <div class="payday">
+      <label for="payday">월급날은 매달</label>
+      <input id="payday" type="number" min="1" max="31" inputmode="numeric" value="17">
+      <span>일 (내 기기에만 저장)</span>
+    </div>
+  </section>
+
+  <section>
+    <h3>목탁<small>치는 만큼 쌓입니다</small></h3>
+    <button class="moktak" id="moktak" type="button" aria-label="목탁 치기">아멘</button>
+    <div class="tally">
+      <div><b id="myTaps">0</b><span>나의 타종</span></div>
+      <div><b id="allTaps" class="shared">0</b><span id="allTapsLabel">교단 전체</span></div>
+    </div>
+    <p class="note" id="tapNote">소리는 처음 칠 때부터 납니다.</p>
+  </section>
+
+  <section>
+    <h3>오늘의 직분<small>단장님 임의 임명제</small></h3>
+    <div class="rank" id="rank">–</div>
+    <p class="note">직분의 이름과 서열은 그날 교주님 기분에 따릅니다. 어제의 큰스님이 오늘의 새신자가 될 수 있고 이의 제기는 제1계명에 따라 받지 않습니다.</p>
+    <p class="note" id="rankDate"></p>
+  </section>
+</section>
+
+<section class="creed">
+  <blockquote>단장님 말씀이 곧 길</blockquote>
+</section>
+
+<section>
+  <div class="sec-head" style="text-align:center"><h2>창립 선언문</h2></div>
+  <div class="decl">
+    <p>우리는 겉으로는 합장하고 속으로는 아멘하는 자들이다.</p>
+    <p>연꽃 위에 십자가를 세우고, 강준규 단장님의 말씀을 길로 삼는다.</p>
+    <p>길을 잃은 자는 단톡방을 보라. 거기 말씀이 있다.</p>
+    <p>이에 단장교의 창립을 온 누리에 선포한다.</p>
+    <p class="sign">단장님의 은혜로.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>단장교 십계명</h2></div>
+  <ol class="commands">
+    <li><p>단장님 말씀이 곧 길이니, 다른 내비게이션을 두지 말라.</p></li>
+    <li class="taboo"><p>단장님보다 먼저 수저를 들지 말라.</p></li>
+    <li class="taboo"><p>단톡방 말씀을 읽고도 응답하지 않는 죄를 범하지 말라.</p></li>
+    <li><p>모든 인사의 처음과 끝에 "단장님의 은혜로"를 붙이라.</p></li>
+    <li><p>단장님의 어록을 받아 적어 후대에 전하라.</p></li>
+    <li><p>단장님의 농담에는 웃음으로 화답하라. 이것이 보시(布施)니라.</p></li>
+    <li><p>이웃 신도의 커피를 탐내지 말고, 네가 먼저 사라.</p></li>
+    <li><p>모임에 늦는 자는 108배 대신 간식으로 속죄하라.</p></li>
+    <li><p>단장님의 존함을 망령되이 부르지 말라. 단, 칭찬할 때는 예외로 한다.</p></li>
+    <li><p>들어오는 문은 좁으나 나가는 문은 넓으니, 탈퇴는 자유니라.</p></li>
+  </ol>
+  <p class="taboo-key"><b>붉은 숫자</b>는 교단의 2대 금기입니다. 선(先)수저와 읽씹.</p>
+</section>
+
+<section>
+  <div class="sec-head"><h2>단장어록 제1장<span>독서품 讀書品</span></h2></div>
+  <div class="sutra">
+    <div class="verse">
+      <p class="ref">1장 1절</p>
+      <p class="lead">단장님께서 이르시되,</p>
+      <p class="word">"독서가 곧 인생이다."</p>
+    </div>
+    <div class="gloss">
+      <h3>주해</h3>
+      <ul>
+        <li>책장을 넘기는 것이 곧 하루를 넘기는 것이다.</li>
+        <li>읽지 않은 날은 살지 않은 날과 같다.</li>
+        <li>그러므로 신도는 수저보다 먼저 책을 들 수 있다. 제2계명의 유일한 예외다.</li>
+      </ul>
+      <h3 style="margin-top:.75rem">이 말씀에 따라</h3>
+      <ul>
+        <li>세상 모든 책이 경전의 후보가 된다.</li>
+        <li>좌선 대신 좌독(坐讀), 앉아서 읽는다.</li>
+        <li>성물은 책갈피. 신도는 늘 하나씩 지닌다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><h2>교단의 네 기둥</h2></div>
+  <dl class="rites">
+    <div><dt>입교 의식</dt><dd><b>어록 암송례</b>단장님 앞에서 어록 한 구절을 틀리지 않고 외웁니다. 틀리면 다음 은급절에 재응시합니다.</dd></div>
+    <div><dt>성지</dt><dd><b>단장님의 고향 (미정)</b>확정될 때까지 "약속의 땅"이라 부릅니다. 확정되면 연 1회 순례를 떠납니다.</dd></div>
+    <div><dt>최대 명절</dt><dd><b>월급날, 은급절</b>1년에 열두 번 지냅니다. 이날의 안부 인사는 "은급을 받으셨습니까".</dd></div>
+    <div><dt>직분</dt><dd><b>단장님 임의 임명</b>이름도 서열도 그날 교주님 기분대로. 위 "오늘의 직분"에서 확인합니다.</dd></div>
+  </dl>
+</section>
+
+<section>
+  <div class="sec-head" id="join"><h2>어록 암송례로 입교하기</h2></div>
+  <div class="join">
+    <form id="joinForm" novalidate>
+      <p>단장어록 1장 1절을 한 호흡에 적으십시오. 아홉 글자이니 틀릴 여지가 없습니다.</p>
+      <div class="field">
+        <label for="recite">암송</label>
+        <input id="recite" type="text" autocomplete="off" placeholder="단장님께서 이르시되…">
+      </div>
+      <div class="field">
+        <label for="book">요즘 읽는 책 (고하지 않아도 됩니다)</label>
+        <input id="book" type="text" autocomplete="off" maxlength="40" placeholder="책 제목">
+      </div>
+      <div><button class="btn solid" id="joinBtn" type="submit">암송하고 입교하기</button></div>
+      <p class="msg" id="joinMsg" role="status"></p>
+    </form>
+    <div class="roll">
+      <h3>신도 명부 <small id="rollCount"></small></h3>
+      <ul id="rollList"></ul>
+      <p class="empty" id="rollEmpty">아직 입교한 신도가 없습니다. 첫 암송자가 이 자리에 오릅니다.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>단장님의 은혜로</b>
+  <span>단장교는 모임에서 웃자고 세운 교단입니다. 탈퇴는 자유입니다.</span>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id)};
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},
+             set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  var VERSE="독서가곧인생이다";
+
+  /* 인사말 복사 */
+  $("copyGreet").addEventListener("click",function(){
+    var b=this,t="단장님의 은혜로";
+    var done=function(){b.textContent="복사했습니다";setTimeout(function(){b.textContent="인사말 복사"},1600)};
+    try{navigator.clipboard.writeText(t).then(done,function(){b.textContent="길게 눌러 복사하세요"})}
+    catch(e){b.textContent="길게 눌러 복사하세요"}
+  });
+
+  /* 은급절 카운트다운 */
+  var payEl=$("payday"),saved=parseInt(store.get("payday"),10);
+  if(saved>=1&&saved<=31)payEl.value=saved;
+  function payDateIn(y,m,d){var last=new Date(y,m+1,0).getDate();return new Date(y,m,Math.min(d,last))}
+  function pad(n){return String(n).padStart(2,"0")}
+  function tick(){
+    var d=parseInt(payEl.value,10);if(!(d>=1&&d<=31))d=17;
+    var now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    var p=payDateIn(now.getFullYear(),now.getMonth(),d);
+    if(p.getTime()===today.getTime()){
+      $("dday").textContent="오늘";
+      $("clock").textContent="은급을 받으셨습니까";
+      $("paynote").textContent="대축일입니다. 제7계명에 따라 오늘의 커피는 먼저 본 사람이 삽니다.";
+      return;
+    }
+    if(p<today)p=payDateIn(now.getFullYear(),now.getMonth()+1,d);
+    var ms=p-now,s=Math.floor(ms/1000);
+    var days=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),sec=s%60;
+    $("dday").innerHTML="D-"+Math.ceil((p-today)/86400000)+"<small>"+(p.getMonth()+1)+"월 "+p.getDate()+"일</small>";
+    $("clock").textContent=days+"일 "+pad(h)+":"+pad(m)+":"+pad(sec)+" 남음";
+    $("paynote").textContent="매달 돌아오는 은혜의 날. 이날의 커피는 먼저 본 사람이 삽니다.";
+  }
+  payEl.addEventListener("input",function(){var v=parseInt(payEl.value,10);if(v>=1&&v<=31)store.set("payday",String(v));tick()});
+  tick();setInterval(tick,1000);
+
+  /* 오늘의 직분: 날짜와 기기(또는 신도)로 정해짐 */
+  var RANKS=["행자","사미","집사스님","장로보살","큰스님","새신자","권사행자","부목법사","수석 책갈피","단톡방 지기","공양주 집사","수저 감찰"];
+  var seed=store.get("seed");if(!seed){seed=String(Math.random()).slice(2);store.set("seed",seed)}
+  function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+  function showRank(key){
+    var n=new Date(),day=n.getFullYear()+"-"+(n.getMonth()+1)+"-"+n.getDate();
+    $("rank").textContent=RANKS[hash(day+"|"+key)%RANKS.length];
+    $("rankDate").textContent=(n.getMonth()+1)+"월 "+n.getDate()+"일 임명. 자정에 다시 정해집니다.";
+  }
+  showRank(seed);
+
+  /* 목탁 소리 */
+  var ac=null;
+  function knock(){
+    try{
+      ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+      var t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain(),f=ac.createBiquadFilter();
+      o.type="triangle";o.frequency.setValueAtTime(760,t);o.frequency.exponentialRampToValueAtTime(520,t+.09);
+      f.type="bandpass";f.frequency.value=700;f.Q.value=4;
+      g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.7,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+.16);
+      o.connect(f);f.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.18);
+    }catch(e){}
+  }
+
+  /* 상태: 내 기록 한 장 */
+  var mine={taps:parseInt(store.get("taps"),10)||0,recited:store.get("recited")==="1",book:store.get("book")||""};
+  var others=0,db=null,user=null,uid=null,myRef=null,canWrite=false,remoteLoaded=false;
+  function paintTaps(){
+    $("myTaps").textContent=mine.taps.toLocaleString("ko-KR");
+    $("allTaps").textContent=(others+mine.taps).toLocaleString("ko-KR");
+  }
+  paintTaps();
+  if(mine.recited)$("joinMsg").textContent="이미 암송례를 마치셨습니다.";
+
+  /* 쓰기는 한 번에 하나, 연타는 멈춘 뒤 한 번만 */
+  var timer=null,writing=false,dirty=false;
+  function saveLocal(){store.set("taps",String(mine.taps));store.set("recited",mine.recited?"1":"0");store.set("book",mine.book)}
+  function flush(){
+    if(!myRef||!canWrite||!remoteLoaded)return;
+    if(writing){dirty=true;return}
+    writing=true;dirty=false;
+    var body={taps:mine.taps,recited:mine.recited,book:mine.book};
+    if(mine.recited)body.joinedAt=mine.joinedAt||Date.now();
+    myRef.set(body).catch(function(e){
+      if(e&&e.code==="invalid_argument"){canWrite=false;$("tapNote").textContent="보기 전용으로 열려 있어 내 타종은 이 기기에만 남습니다."}
+    }).then(function(){writing=false;if(dirty)flush()});
+  }
+  function queue(delay){saveLocal();clearTimeout(timer);timer=setTimeout(flush,delay)}
+
+  $("moktak").addEventListener("click",function(){
+    knock();mine.taps++;paintTaps();
+    var b=this;b.classList.add("hit");setTimeout(function(){b.classList.remove("hit")},90);
+    queue(1200);
+  });
+
+  $("joinForm").addEventListener("submit",function(e){
+    e.preventDefault();
+    var said=$("recite").value.replace(/[\s"'“”‘’.,。!?]/g,""),msg=$("joinMsg");
+    if(!said){msg.className="msg bad";msg.textContent="암송을 적어 주십시오.";return}
+    if(said!==VERSE){msg.className="msg bad";msg.textContent="한 글자가 어긋났습니다. 지금 다시 외우거나 다음 은급절에 재응시하십시오.";return}
+    mine.recited=true;mine.book=$("book").value.trim().slice(0,40);mine.joinedAt=mine.joinedAt||Date.now();
+    msg.className="msg ok";
+    msg.textContent=(myRef&&canWrite)?"단장님께서 고개를 끄덕이셨습니다. 명부에 올랐습니다. 단장님의 은혜로.":"단장님께서 고개를 끄덕이셨습니다. 단장님의 은혜로. (이 기기에만 기록됩니다)";
+    queue(0);
+  });
+
+  /* 신도 명부 그리기 */
+  var lastDocs=[];
+  function renderRoll(){
+    var members=lastDocs.filter(function(d){return d.data.recited}).sort(function(a,b){return (a.data.joinedAt||0)-(b.data.joinedAt||0)});
+    var ids=members.map(function(m){return m.id});
+    var draw=function(ps){
+      var ul=$("rollList");ul.textContent="";
+      members.forEach(function(m){
+        var p=ps&&ps[m.id],li=document.createElement("li"),box=document.createElement("div"),b=document.createElement("b"),s=document.createElement("span");
+        var img=document.createElement("img");img.alt="";if(p&&p.avatarUrl)img.src=p.avatarUrl;
+        b.textContent=((p&&p.name)||"이름 모를 신도")+(m.id===uid?" (나)":"");
+        var book=typeof m.data.book==="string"?m.data.book.slice(0,40):"";
+        s.textContent=(book?"『"+book+"』 읽는 중, ":"")+"타종 "+(Number(m.data.taps)||0).toLocaleString("ko-KR")+"회";
+        box.appendChild(b);box.appendChild(s);li.appendChild(img);li.appendChild(box);ul.appendChild(li);
+      });
+      $("rollEmpty").hidden=members.length>0;
+      $("rollCount").textContent=members.length?"지금 "+members.length+"명":"";
+    };
+    if(user&&ids.length)user.profiles(ids).then(draw);else draw(null);
+  }
+
+  /* 교단 공용 기록 연결 */
+  function connect(){
+    if(!window.claude||!window.claude.use){localOnly();return}
+    Promise.all([window.claude.use("db"),window.claude.use("user")]).then(function(r){
+      db=r[0];user=r[1];
+      if(!db){localOnly();return}
+      var idP=user?user.id():Promise.resolve(null);
+      var canP=user?user.can("data.write"):Promise.resolve(null);
+      return Promise.all([idP,canP]).then(function(v){
+        uid=v[0];canWrite=!!uid&&v[1]!==false;
+        if(uid){myRef=db.doc("devotion/"+uid);showRank(uid)}
+        $("allTapsLabel").textContent="교단 전체 (실시간)";
+        if(!uid)$("tapNote").textContent="로그인한 신도의 타종만 교단 전체에 더해집니다.";
+        db.collection("devotion").onSnapshot(function(snap){
+          var sum=0,docs=[];
+          snap.docs.forEach(function(d){
+            var data=d.data()||{};
+            if(d.id===uid){
+              if(!remoteLoaded){ /* 다른 기기에서 쌓은 기록과 합침 */
+                var rt=Number(data.taps)||0;
+                if(rt>mine.taps)mine.taps=rt;
+                if(data.recited){mine.recited=true;mine.book=mine.book||data.book||"";mine.joinedAt=data.joinedAt;$("joinMsg").textContent="이미 암송례를 마치셨습니다."}
+              }
+            }else sum+=Number(data.taps)||0;
+            docs.push({id:d.id,data:d.id===uid?{taps:mine.taps,recited:mine.recited,book:mine.book,joinedAt:mine.joinedAt||data.joinedAt}:data});
+          });
+          var first=!remoteLoaded;remoteLoaded=true;
+          others=sum;lastDocs=docs;paintTaps();renderRoll();
+          if(first){
+            var me=snap.docs.filter(function(d){return d.id===uid})[0],rd=me?(me.data()||{}):{};
+            if(mine.taps>(Number(rd.taps)||0)||(mine.recited&&!rd.recited))queue(0);
+          }
+        },function(){localOnly()});
+      });
+    }).catch(localOnly);
+  }
+  function localOnly(){
+    $("allTapsLabel").textContent="교단 전체";
+    $("tapNote").textContent="지금은 공용 기록에 닿지 않아 내 타종만 보입니다.";
+  }
+  connect();
+})();
+</script>
+
+</body>
+</html>
